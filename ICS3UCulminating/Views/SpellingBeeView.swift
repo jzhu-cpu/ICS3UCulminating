@@ -2,91 +2,138 @@ import SwiftUI
 
 // MARK: - VIEW
 // The View is the user interface. It draws what the user sees on the screen.
-// It observes the View Model and updates whenever the View Model's properties change.
 struct SpellingBeeView: View {
     
     // MARK: - Stored properties
     
     /// The instance of the View Model that this view will use.
-    /// @State is used here because the View "owns" this data.
     @State var viewModel = SpellingBeeViewModel(puzzle: examplePuzzle)
+    
+    /// Controls the presentation of the "Found Words" sheet.
+    @State private var showingWordList = false
     
     // MARK: - Computed properties
     
-    // This is where the layout is defined
     var body: some View {
-        VStack(spacing: 20) {
+        ZStack {
+            // Background Theme
+            Color(red: 255/255, green: 252/255, blue: 230/255)
+                .ignoresSafeArea()
             
-            // SECTION: Header (Rating and Score)
-            HStack {
-                VStack(alignment: .leading) {
-                    Text("Rating: \(viewModel.currentRating)")
-                        .font(.headline)
-                    Text("Score: \(viewModel.score)")
-                        .font(.subheadline)
-                }
-                Spacer() // Pushes the text to the left
-            }
-            .padding()
-            
-            Spacer()
-            
-            // SECTION: Input Display
-            // Shows the word the user is currently building.
-            // We use .uppercased() because the game usually shows capital letters.
-            Text(viewModel.currentWord.isEmpty ? " " : viewModel.currentWord.uppercased())
-                .font(.system(size: 40, weight: .bold, design: .rounded))
-                .tracking(2)
-            
-            // SECTION: Feedback Message
-            // Shows results like "Pangram!" or "Too short".
-            Text(viewModel.message)
-                .font(.headline)
-                .foregroundStyle(.secondary)
-                .frame(height: 30) // Fixed height prevents the UI from "jumping" when messages appear
-            
-            Spacer()
-            
-            // SECTION: Letter Grid
-            // TODO: We will build a custom honeycomb shape here later.
-            // For now, let's just show a simple grid of buttons for testing.
-            let letters = viewModel.puzzle.allLetters
-            HStack {
-                ForEach(letters, id: \.self) { letter in
-                    Button(action: {
-                        viewModel.addLetter(letter)
-                    }) {
-                        Text(letter.uppercased())
-                            .font(.title)
-                            .frame(width: 44, height: 44)
-                            .background(letter == viewModel.puzzle.centerLetter ? Color.yellow : Color.gray.opacity(0.2))
-                            .clipShape(Circle())
+            VStack(spacing: 20) {
+                
+                // SECTION: Top Bar (Score and List Toggle)
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(viewModel.currentRating.uppercased())
+                            .font(.system(.caption, design: .monospaced))
+                            .fontWeight(.bold)
+                            .foregroundStyle(.secondary)
+                        
+                        Text("\(viewModel.score)")
+                            .font(.system(size: 34, weight: .black, design: .rounded))
+                    }
+                    
+                    Spacer()
+                    
+                    // Button to see words already found
+                    Button {
+                        showingWordList.toggle()
+                    } label: {
+                        Image(systemName: "list.bullet.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundStyle(.black)
                     }
                 }
-            }
-            
-            Spacer()
-            
-            // SECTION: Controls
-            HStack(spacing: 30) {
-                // Remove the last letter typed
-                Button("Delete") {
-                    viewModel.deleteLetter()
-                }
-                .buttonStyle(.bordered)
+                .padding(.horizontal)
                 
-                // Submit the word
-                Button("Enter") {
-                    viewModel.submitWord()
+                Spacer()
+                
+                // SECTION: Input Display
+                Text(viewModel.currentWord.isEmpty ? " " : viewModel.currentWord.uppercased())
+                    .font(.system(size: 44, weight: .black, design: .rounded))
+                    .tracking(4)
+                    .foregroundStyle(.black)
+                
+                // SECTION: Feedback Message
+                Text(viewModel.message)
+                    .font(.headline)
+                    .foregroundStyle(viewModel.message == "Pangram!" ? .orange : .secondary)
+                    .frame(height: 30)
+                
+                Spacer()
+                
+                // SECTION: Letter Grid
+                // Temporary Grid layout while we prepare the Honeycomb
+                let letters = viewModel.puzzle.allLetters
+                LazyVGrid(columns: [GridItem(.fixed(60)), GridItem(.fixed(60)), GridItem(.fixed(60))], spacing: 15) {
+                    ForEach(letters, id: \.self) { letter in
+                        Button(action: {
+                            viewModel.addLetter(letter)
+                        }) {
+                            Text(letter.uppercased())
+                                .font(.system(size: 24, weight: .bold, design: .rounded))
+                                .frame(width: 60, height: 60)
+                                .background(letter == viewModel.puzzle.centerLetter ? Color.yellow : Color.white)
+                                .foregroundStyle(.black)
+                                .clipShape(Circle())
+                                .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
+                        }
+                    }
                 }
-                .buttonStyle(.borderedProminent)
+                
+                Spacer()
+                
+                // SECTION: Controls
+                HStack(spacing: 20) {
+                    Button("Delete") {
+                        viewModel.deleteLetter()
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 30)
+                    .padding(.vertical, 15)
+                    .background(Capsule().stroke(Color.black, lineWidth: 1))
+                    
+                    Button("Enter") {
+                        viewModel.submitWord()
+                    }
+                    .font(.headline)
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 15)
+                    .background(Color.yellow)
+                    .clipShape(Capsule())
+                    .shadow(color: .gray.opacity(0.4), radius: 4, x: 0, y: 2)
+                }
+                .padding(.bottom, 30)
             }
-            .padding(.bottom, 40)
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+        }
+        // A popup sheet to show words found
+        .sheet(isPresented: $showingWordList) {
+            NavigationStack {
+                List(viewModel.foundWords, id: \.self) { word in
+                    Text(word.uppercased())
+                        .font(.system(.body, design: .monospaced))
+                }
+                .navigationTitle("Found Words (\(viewModel.foundWords.count))")
+                .toolbar {
+                    Button("Done") { showingWordList.toggle() }
+                }
+            }
+            #if os(iOS)
+            .presentationDetents([.medium, .large])
+            #endif
         }
     }
 }
 
 // MARK: - PREVIEW
 #Preview {
-    SpellingBeeView()
+    NavigationStack {
+        SpellingBeeView()
+    }
 }

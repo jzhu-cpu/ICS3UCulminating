@@ -13,6 +13,8 @@
 		1AB045642FCE15A600B06BB0 /* SpellingBeePuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045632FCE15A600B06BB0 /* SpellingBeePuzzle.swift */; };
 		1AB045662FCE15B400B06BB0 /* SpellingBeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045652FCE15B400B06BB0 /* SpellingBeeViewModel.swift */; };
 		1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */; };
+		1AB0456A2FD05D4100B06BB0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045692FD05D4100B06BB0 /* SettingsView.swift */; };
+		1AB0456C2FD05D9E00B06BB0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		1AB045632FCE15A600B06BB0 /* SpellingBeePuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeePuzzle.swift; sourceTree = "<group>"; };
 		1AB045652FCE15B400B06BB0 /* SpellingBeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeeViewModel.swift; sourceTree = "<group>"; };
 		1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeeView.swift; sourceTree = "<group>"; };
+		1AB045692FD05D4100B06BB0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */,
+				1AB045692FD05D4100B06BB0 /* SettingsView.swift */,
+				1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -162,8 +168,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1AB0456A2FD05D4100B06BB0 /* SettingsView.swift in Sources */,
 				1AB045662FCE15B400B06BB0 /* SpellingBeeViewModel.swift in Sources */,
 				1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */,
+				1AB0456C2FD05D9E00B06BB0 /* HomeView.swift in Sources */,
 				1AB0454E2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift in Sources */,
 				1AB045642FCE15A600B06BB0 /* SpellingBeePuzzle.swift in Sources */,
 			);
