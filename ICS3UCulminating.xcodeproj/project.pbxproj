@@ -9,24 +9,20 @@
 /* Begin PBXBuildFile section */
 		1AB0454E2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0454D2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift */; };
 		1AB045502FCE05AF00B06BB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB0454F2FCE05AF00B06BB0 /* Assets.xcassets */; };
-		1AB045532FCE05AF00B06BB0 /* House.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045522FCE05AF00B06BB0 /* House.swift */; };
-		1AB045562FCE05AF00B06BB0 /* HouseListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045552FCE05AF00B06BB0 /* HouseListViewModel.swift */; };
-		1AB045592FCE05AF00B06BB0 /* HousesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045582FCE05AF00B06BB0 /* HousesListView.swift */; };
-		1AB0455B2FCE05AF00B06BB0 /* HouseItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0455A2FCE05AF00B06BB0 /* HouseItemView.swift */; };
 		1AB0455D2FCE05AF00B06BB0 /* RELEASE.md in Resources */ = {isa = PBXBuildFile; fileRef = 1AB0455C2FCE05AF00B06BB0 /* RELEASE.md */; };
-		1AB045622FCE106C00B06BB0 /* SpellingBeeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045612FCE106C00B06BB0 /* SpellingBeeGame.swift */; };
+		1AB045642FCE15A600B06BB0 /* SpellingBeePuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045632FCE15A600B06BB0 /* SpellingBeePuzzle.swift */; };
+		1AB045662FCE15B400B06BB0 /* SpellingBeeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045652FCE15B400B06BB0 /* SpellingBeeViewModel.swift */; };
+		1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1AB0454A2FCE05AF00B06BB0 /* ICS3UCulminating.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICS3UCulminating.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB0454D2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICS3UCulminatingApp.swift; sourceTree = "<group>"; };
 		1AB0454F2FCE05AF00B06BB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1AB045522FCE05AF00B06BB0 /* House.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = House.swift; sourceTree = "<group>"; };
-		1AB045552FCE05AF00B06BB0 /* HouseListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseListViewModel.swift; sourceTree = "<group>"; };
-		1AB045582FCE05AF00B06BB0 /* HousesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HousesListView.swift; sourceTree = "<group>"; };
-		1AB0455A2FCE05AF00B06BB0 /* HouseItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseItemView.swift; sourceTree = "<group>"; };
 		1AB0455C2FCE05AF00B06BB0 /* RELEASE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = RELEASE.md; sourceTree = "<group>"; };
-		1AB045612FCE106C00B06BB0 /* SpellingBeeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeeGame.swift; sourceTree = "<group>"; };
+		1AB045632FCE15A600B06BB0 /* SpellingBeePuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeePuzzle.swift; sourceTree = "<group>"; };
+		1AB045652FCE15B400B06BB0 /* SpellingBeeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeeViewModel.swift; sourceTree = "<group>"; };
+		1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpellingBeeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,8 +68,7 @@
 		1AB045512FCE05AF00B06BB0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1AB045522FCE05AF00B06BB0 /* House.swift */,
-				1AB045612FCE106C00B06BB0 /* SpellingBeeGame.swift */,
+				1AB045632FCE15A600B06BB0 /* SpellingBeePuzzle.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -81,7 +76,7 @@
 		1AB045542FCE05AF00B06BB0 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				1AB045552FCE05AF00B06BB0 /* HouseListViewModel.swift */,
+				1AB045652FCE15B400B06BB0 /* SpellingBeeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -89,8 +84,7 @@
 		1AB045572FCE05AF00B06BB0 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1AB045582FCE05AF00B06BB0 /* HousesListView.swift */,
-				1AB0455A2FCE05AF00B06BB0 /* HouseItemView.swift */,
+				1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,12 +162,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AB045622FCE106C00B06BB0 /* SpellingBeeGame.swift in Sources */,
-				1AB0455B2FCE05AF00B06BB0 /* HouseItemView.swift in Sources */,
-				1AB045532FCE05AF00B06BB0 /* House.swift in Sources */,
-				1AB045592FCE05AF00B06BB0 /* HousesListView.swift in Sources */,
-				1AB045562FCE05AF00B06BB0 /* HouseListViewModel.swift in Sources */,
+				1AB045662FCE15B400B06BB0 /* SpellingBeeViewModel.swift in Sources */,
+				1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */,
 				1AB0454E2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift in Sources */,
+				1AB045642FCE15A600B06BB0 /* SpellingBeePuzzle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
