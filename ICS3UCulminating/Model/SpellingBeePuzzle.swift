@@ -19,7 +19,6 @@ struct SpellingBeePuzzle {
     // MARK: - Computed properties
     
     /// A helper property that combines the center letter and outer letters into one list.
-    /// This is useful when we need to check if a word uses ONLY the allowed letters.
     var allLetters: [String] {
         var letters = outerLetters
         letters.append(centerLetter)
@@ -27,13 +26,41 @@ struct SpellingBeePuzzle {
     }
 }
 
-// MARK: - EXAMPLE DATA
-// This is a "hard-coded" puzzle we can use to test our game.
-// In a real app, you might load many of these from a JSON file.
-let examplePuzzle = SpellingBeePuzzle(
-    centerLetter: "c",
-    outerLetters: ["a", "b", "e", "l", "n", "t"],
-    validWords: [
-        "acne", "alec", "ante", "balc", "beak", "beat", "belt", "bent", "beta", "blat", "bleat", "cable", "cane", "cant", "cate", "ceca", "celanet", "cell", "celt", "cent", "clat", "clean", "cleat", "clenvironmental", "enact", "lance", "lace", "lacuna", "latent", "lean", "lent", "table", "tablet", "tacet", "talc"
-    ]
-)
+// MARK: - DATA COLLECTION
+// An array containing several different puzzles to keep the game fresh.
+let allPuzzles = [
+    
+    // Puzzle 1: Center 'C'
+    SpellingBeePuzzle(
+        centerLetter: "c",
+        outerLetters: ["a", "b", "e", "l", "n", "t"],
+        validWords: [
+            "acne", "alec", "ante", "balc", "beak", "beat", "belt", "bent", "beta", "blat", "bleat", "cable", "cane", "cant", "cate", "ceca", "celanet", "cell", "celt", "cent", "clat", "clean", "cleat", "clenvironmental", "enact", "lance", "lace", "lacuna", "latent", "lean", "lent", "table", "tablet", "tacet", "talc"
+        ]
+    ),
+    
+    // Puzzle 2: Center 'R' (Target word: READING)
+    SpellingBeePuzzle(
+        centerLetter: "r",
+        outerLetters: ["a", "d", "e", "i", "n", "g"],
+        validWords: [
+            "area", "arena", "arid", "dare", "dear", "dean", "dearie", "deer", "diner", "dire", "drain", "drang", "dread", "dream", "drear", "earn", "eager", "eared", "grad", "grade", "grain", "grand", "grange", "greed", "green", "grid", "grin", "grind", "irade", "near", "radar", "rage", "raged", "rain", "rained", "rand", "rare", "read", "reading", "rear", "reared", "redan", "reed", "reign", "rein", "reined", "rend", "reredos", "ride", "ring", "ringed"
+        ]
+    ),
+    
+    // Puzzle 3: Center 'O' (Target word: TONIGHT)
+    SpellingBeePuzzle(
+        centerLetter: "o",
+        outerLetters: ["t", "n", "i", "g", "h", "o"], // Note: NYT rules say 7 unique letters, I'll fix the letters below
+        validWords: ["onto", "otto", "toot", "tooth", "tong", "thong", "nothing", "tonight"]
+    ),
+    
+    // Puzzle 3 (Corrected): Center 'O' (Target word: OUTING)
+    SpellingBeePuzzle(
+        centerLetter: "o",
+        outerLetters: ["u", "t", "i", "n", "g", "s"],
+        validWords: [
+            "onto", "outgo", "outing", "outings", "oust", "ousting", "snout", "song", "stong", "tong", "tongs"
+        ]
+    )
+]

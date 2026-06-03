@@ -7,7 +7,7 @@ struct SpellingBeeView: View {
     // MARK: - Stored properties
     
     /// The instance of the View Model that this view will use.
-    @State var viewModel = SpellingBeeViewModel(puzzle: examplePuzzle)
+    @State var viewModel = SpellingBeeViewModel()
     
     /// Controls the presentation of the "Found Words" sheet.
     @State private var showingWordList = false
@@ -35,6 +35,16 @@ struct SpellingBeeView: View {
                     }
                     
                     Spacer()
+                    
+                    // Button to start a new game with different letters
+                    Button {
+                        viewModel.startNewGame()
+                    } label: {
+                        Image(systemName: "arrow.clockwise.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundStyle(.black)
+                            .padding(.trailing, 10)
+                    }
                     
                     // Button to see words already found
                     Button {

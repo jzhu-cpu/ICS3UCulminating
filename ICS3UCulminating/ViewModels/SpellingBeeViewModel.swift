@@ -68,12 +68,31 @@ class SpellingBeeViewModel {
     
     // MARK: - Initializer
     
-    /// Sets up the View Model with a specific puzzle.
-    init(puzzle: SpellingBeePuzzle) {
-        self.puzzle = puzzle
+    /// Sets up the View Model. 
+    /// If no puzzle is provided, it picks a random one from our collection.
+    init(puzzle: SpellingBeePuzzle? = nil) {
+        if let providedPuzzle = puzzle {
+            self.puzzle = providedPuzzle
+        } else {
+            // Pick a random puzzle from the list in SpellingBeePuzzle.swift
+            // If the list is empty (shouldn't happen), we use a fallback
+            self.puzzle = allPuzzles.randomElement() ?? allPuzzles[0]
+        }
     }
     
     // MARK: - Functions (Intent)
+    
+    /// Resets the game state and picks a new random puzzle.
+    func startNewGame() {
+        // Pick a new random puzzle
+        self.puzzle = allPuzzles.randomElement() ?? allPuzzles[0]
+        
+        // Reset all game state variables
+        currentWord = ""
+        foundWords = []
+        score = 0
+        message = "New Game Started!"
+    }
     
     /// Adds a letter to the current typed word.
     func addLetter(_ letter: String) {
