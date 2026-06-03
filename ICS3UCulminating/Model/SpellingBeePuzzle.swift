@@ -19,6 +19,7 @@ struct SpellingBeePuzzle {
     // MARK: - Computed properties
     
     /// A helper property that combines the center letter and outer letters into one list.
+    /// This is useful when we need to check if a word uses ONLY the allowed letters.
     var allLetters: [String] {
         var letters = outerLetters
         letters.append(centerLetter)
@@ -28,9 +29,10 @@ struct SpellingBeePuzzle {
 
 // MARK: - DATA COLLECTION
 // An array containing several different puzzles to keep the game fresh.
+// When the app starts, we can pick one of these at random.
 let allPuzzles = [
     
-    // Puzzle 1: Center 'C'
+    // Puzzle 1: Theme is "Cable/Table"
     SpellingBeePuzzle(
         centerLetter: "c",
         outerLetters: ["a", "b", "e", "l", "n", "t"],
@@ -39,7 +41,7 @@ let allPuzzles = [
         ]
     ),
     
-    // Puzzle 2: Center 'R' (Target word: READING)
+    // Puzzle 2: Theme is "Reading" (Pangram)
     SpellingBeePuzzle(
         centerLetter: "r",
         outerLetters: ["a", "d", "e", "i", "n", "g"],
@@ -48,14 +50,7 @@ let allPuzzles = [
         ]
     ),
     
-    // Puzzle 3: Center 'O' (Target word: TONIGHT)
-    SpellingBeePuzzle(
-        centerLetter: "o",
-        outerLetters: ["t", "n", "i", "g", "h", "o"], // Note: NYT rules say 7 unique letters, I'll fix the letters below
-        validWords: ["onto", "otto", "toot", "tooth", "tong", "thong", "nothing", "tonight"]
-    ),
-    
-    // Puzzle 3 (Corrected): Center 'O' (Target word: OUTING)
+    // Puzzle 3: Theme is "Outing" (Pangram)
     SpellingBeePuzzle(
         centerLetter: "o",
         outerLetters: ["u", "t", "i", "n", "g", "s"],
@@ -64,3 +59,6 @@ let allPuzzles = [
         ]
     )
 ]
+
+/// A fallback puzzle used only if something goes wrong with the list above.
+let examplePuzzle = allPuzzles[0]

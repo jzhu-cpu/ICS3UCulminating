@@ -4,13 +4,14 @@ import Observation
 // MARK: - VIEW MODEL
 // The View Model is the "brain" of the app.
 // It manages the active game state and handles user interaction logic.
-// We use the @Observable macro so the SwiftUI View knows when to refresh.
+// We use the @Observable macro so the SwiftUI View knows when to refresh the screen.
 @Observable
 class SpellingBeeViewModel {
     
     // MARK: - Stored properties (State)
+    // These properties represent the "current status" of the game.
     
-    /// The specific puzzle data (letters and valid words) for this session.
+    /// The specific puzzle data (letters and valid words) currently being played.
     var puzzle: SpellingBeePuzzle
     
     /// The string of letters the user is currently typing.
@@ -26,8 +27,9 @@ class SpellingBeeViewModel {
     var message: String = ""
     
     // MARK: - Computed properties
+    // These values are calculated "on the fly" whenever they are needed.
     
-    /// Derives the maximum possible score by summing up the value of every valid word.
+    /// Derives the maximum possible score by summing up the value of every valid word in the puzzle.
     var maximumPossibleScore: Int {
         var total = 0
         for word in puzzle.validWords {
@@ -36,15 +38,15 @@ class SpellingBeeViewModel {
         return total
     }
     
-    /// Determines the player's rank based on what percentage of the total score they've earned.
+    /// Determines the player's rank (e.g., "Beginner", "Genius") based on the percentage of the total score earned.
     var currentRating: String {
         let maxScore = maximumPossibleScore
         if maxScore == 0 { return "Beginner" }
         
-        // Calculate percentage (0.0 to 1.0)
+        // Calculate what percentage of the total words they have found (0.0 to 1.0)
         let percentage = Double(score) / Double(maxScore)
         
-        // Return a name based on the percentage thresholds
+        // Thresholds based on typical Spelling Bee game design
         if percentage >= 1.0 {
             return "Queen Bee"
         } else if percentage >= 0.70 {
@@ -68,26 +70,28 @@ class SpellingBeeViewModel {
     
     // MARK: - Initializer
     
-    /// Sets up the View Model. 
-    /// If no puzzle is provided, it picks a random one from our collection.
+    /// Sets up the View Model.
+    /// - Parameter puzzle: An optional puzzle. If nil, a random puzzle is chosen from our collection.
     init(puzzle: SpellingBeePuzzle? = nil) {
         if let providedPuzzle = puzzle {
+            // Use the specific puzzle if one was given
             self.puzzle = providedPuzzle
         } else {
-            // Pick a random puzzle from the list in SpellingBeePuzzle.swift
-            // If the list is empty (shouldn't happen), we use a fallback
+            // Use .randomElement() to pick a random puzzle from the allPuzzles array.
+            // If the array was empty, we provide a fallback (allPuzzles[0]).
             self.puzzle = allPuzzles.randomElement() ?? allPuzzles[0]
         }
     }
     
-    // MARK: - Functions (Intent)
+    // MARK: - Functions (User Intent)
+    // These functions are called by the View when the user interacts with the UI.
     
-    /// Resets the game state and picks a new random puzzle.
+    /// Resets the game state and picks a new random puzzle from the list.
     func startNewGame() {
-        // Pick a new random puzzle
+        // 1. Pick a new random puzzle
         self.puzzle = allPuzzles.randomElement() ?? allPuzzles[0]
         
-        // Reset all game state variables
+        // 2. Clear all progress from the previous game
         currentWord = ""
         foundWords = []
         score = 0
@@ -97,7 +101,7 @@ class SpellingBeeViewModel {
     /// Adds a letter to the current typed word.
     func addLetter(_ letter: String) {
         currentWord += letter.lowercased()
-        message = "" // Clear the old feedback message when the user starts typing again
+        message = "" // Clear the message so the user can see fresh feedback later
     }
     
     /// Deletes the last character from the current word.
@@ -108,52 +112,54 @@ class SpellingBeeViewModel {
         message = ""
     }
     
-    /// The main logic for when a user hits "Enter".
+    /// Logic for when the user submits a word.
     func submitWord() {
-        // Step 1: Check if the word is valid based on the game rules
+        // Step 1: Validate the word rules
         let result = validate(word: currentWord)
         
-        // Step 2: If it's a "Success", update the score and the found words list
+        // Step 2: If valid, update state
         if result == "Success" {
             foundWords.append(currentWord)
             
-            // Calculate points for this word
+            // Calculate points
             let wordScore = calculateScore(for: currentWord)
             score += wordScore
             
-            // Provide special feedback if they found a Pangram (uses all letters)
+            // Special feedback for Pangrams
             if isPangram(word: currentWord) {
                 message = "Pangram!"
             } else {
                 message = "Nice!"
             }
             
-            // Clear the input field for the next word
+            // Clear input for the next word
             currentWord = ""
         } else {
-            // Step 3: If validation failed, show the error message (e.g., "Too short")
+            // Step 3: Show error message
             message = result
         }
     }
     
+    // MARK: - Private Helpers
+    // These functions handle the "rules" of the game logic.
+    
     /// Checks a word against all Spelling Bee rules.
-    /// Returns "Success" if the word is valid, or an error message if it's not.
     func validate(word: String) -> String {
         let normalizedWord = word.lowercased()
         
-        // RULE: Check if the word was already found
+        // Rule: Can't submit the same word twice
         for found in foundWords {
             if found == normalizedWord {
                 return "Already found"
             }
         }
         
-        // RULE: Words must be at least 4 letters long
+        // Rule: Length check
         if normalizedWord.count < 4 {
             return "Too short"
         }
         
-        // RULE: The word MUST include the center letter
+        // Rule: Must use the center letter
         var containsCenterLetter = false
         for character in normalizedWord {
             if String(character) == puzzle.centerLetter.lowercased() {
@@ -166,7 +172,7 @@ class SpellingBeeViewModel {
             return "Missing center letter"
         }
         
-        // RULE: The word must exist in the puzzle's valid word list
+        // Rule: Must be a word in our dictionary (validWords list)
         var isValid = false
         for valid in puzzle.validWords {
             if valid.lowercased() == normalizedWord {
@@ -182,51 +188,38 @@ class SpellingBeeViewModel {
         return "Success"
     }
     
-    /// Calculates how many points a word is worth.
+    /// Calculates score: 4 letters = 1pt, 5+ letters = 1pt per letter, Pangram = +7pts.
     func calculateScore(for word: String) -> Int {
         var points = 0
-        
-        // Rule: 4-letter words are worth 1 point
         if word.count == 4 {
             points = 1
-        } 
-        // Rule: Words longer than 4 are worth 1 point per letter
-        else if word.count > 4 {
+        } else if word.count > 4 {
             points = word.count
         }
         
-        // Rule: If it's a pangram, add 7 bonus points
         if isPangram(word: word) {
             points += 7
         }
-        
         return points
     }
     
-    /// A helper function to check if a word uses every single letter from the hive.
+    /// Checks if a word uses every letter in the hive at least once.
     func isPangram(word: String) -> Bool {
         let normalizedWord = word.lowercased()
         let hiveLetters = puzzle.allLetters
         
-        // Loop through every required letter in the puzzle
         for hiveLetter in hiveLetters {
             var letterFound = false
-            
-            // See if this hive letter appears anywhere in the typed word
             for character in normalizedWord {
                 if String(character) == hiveLetter.lowercased() {
                     letterFound = true
                     break
                 }
             }
-            
-            // If even ONE hive letter is missing, it's not a pangram
             if letterFound == false {
                 return false
             }
         }
-        
-        // If the loop finished, every letter was found!
         return true
     }
 }

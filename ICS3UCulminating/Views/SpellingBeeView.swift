@@ -2,41 +2,48 @@ import SwiftUI
 
 // MARK: - VIEW
 // The View is the user interface. It draws what the user sees on the screen.
+// It watches the View Model and refreshes whenever the game state changes.
 struct SpellingBeeView: View {
     
     // MARK: - Stored properties
     
-    /// The instance of the View Model that this view will use.
+    /// The View Model that manages the game logic.
+    /// It starts with a random puzzle by default.
     @State var viewModel = SpellingBeeViewModel()
     
-    /// Controls the presentation of the "Found Words" sheet.
+    /// Controls whether the "Found Words" popup sheet is visible.
     @State private var showingWordList = false
     
     // MARK: - Computed properties
     
     var body: some View {
         ZStack {
-            // Background Theme
+            // LAYER 1: Background Theme
+            // We use a light cream color to match the Spelling Bee aesthetic.
             Color(red: 255/255, green: 252/255, blue: 230/255)
                 .ignoresSafeArea()
             
+            // LAYER 2: UI Content
             VStack(spacing: 20) {
                 
-                // SECTION: Top Bar (Score and List Toggle)
+                // SECTION: Top Bar (Score, Refresh, and List)
                 HStack {
                     VStack(alignment: .leading) {
+                        // Shows the rank (e.g., GENIUS)
                         Text(viewModel.currentRating.uppercased())
                             .font(.system(.caption, design: .monospaced))
                             .fontWeight(.bold)
                             .foregroundStyle(.secondary)
                         
+                        // Shows the total numerical score
                         Text("\(viewModel.score)")
                             .font(.system(size: 34, weight: .black, design: .rounded))
                     }
                     
                     Spacer()
                     
-                    // Button to start a new game with different letters
+                    // ICON: New Game / Refresh
+                    // Resets the game with a new random set of letters.
                     Button {
                         viewModel.startNewGame()
                     } label: {
@@ -46,7 +53,8 @@ struct SpellingBeeView: View {
                             .padding(.trailing, 10)
                     }
                     
-                    // Button to see words already found
+                    // ICON: Found Words List
+                    // Toggles a sheet showing all words found so far.
                     Button {
                         showingWordList.toggle()
                     } label: {
@@ -60,12 +68,14 @@ struct SpellingBeeView: View {
                 Spacer()
                 
                 // SECTION: Input Display
+                // Shows the word being built in real-time.
                 Text(viewModel.currentWord.isEmpty ? " " : viewModel.currentWord.uppercased())
                     .font(.system(size: 44, weight: .black, design: .rounded))
                     .tracking(4)
                     .foregroundStyle(.black)
                 
                 // SECTION: Feedback Message
+                // Shows "Pangram!", "Nice!", or error messages like "Too short".
                 Text(viewModel.message)
                     .font(.headline)
                     .foregroundStyle(viewModel.message == "Pangram!" ? .orange : .secondary)
@@ -74,7 +84,7 @@ struct SpellingBeeView: View {
                 Spacer()
                 
                 // SECTION: Letter Grid
-                // Temporary Grid layout while we prepare the Honeycomb
+                // This grid creates buttons for all 7 letters in the puzzle.
                 let letters = viewModel.puzzle.allLetters
                 LazyVGrid(columns: [GridItem(.fixed(60)), GridItem(.fixed(60)), GridItem(.fixed(60))], spacing: 15) {
                     ForEach(letters, id: \.self) { letter in
@@ -84,6 +94,7 @@ struct SpellingBeeView: View {
                             Text(letter.uppercased())
                                 .font(.system(size: 24, weight: .bold, design: .rounded))
                                 .frame(width: 60, height: 60)
+                                // The center letter gets a Yellow background, others are White.
                                 .background(letter == viewModel.puzzle.centerLetter ? Color.yellow : Color.white)
                                 .foregroundStyle(.black)
                                 .clipShape(Circle())
@@ -94,8 +105,9 @@ struct SpellingBeeView: View {
                 
                 Spacer()
                 
-                // SECTION: Controls
+                // SECTION: Controls (Delete and Enter)
                 HStack(spacing: 20) {
+                    // Button to backspace/delete the last letter
                     Button("Delete") {
                         viewModel.deleteLetter()
                     }
@@ -105,6 +117,7 @@ struct SpellingBeeView: View {
                     .padding(.vertical, 15)
                     .background(Capsule().stroke(Color.black, lineWidth: 1))
                     
+                    // Button to submit the word for scoring
                     Button("Enter") {
                         viewModel.submitWord()
                     }
@@ -118,11 +131,12 @@ struct SpellingBeeView: View {
                 }
                 .padding(.bottom, 30)
             }
+            // Platform specific styling (iOS only)
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
         }
-        // A popup sheet to show words found
+        // POPUP: Found Words Sheet
         .sheet(isPresented: $showingWordList) {
             NavigationStack {
                 List(viewModel.foundWords, id: \.self) { word in
@@ -134,6 +148,7 @@ struct SpellingBeeView: View {
                     Button("Done") { showingWordList.toggle() }
                 }
             }
+            // iOS only: Allow the sheet to be half-screen or full-screen
             #if os(iOS)
             .presentationDetents([.medium, .large])
             #endif
