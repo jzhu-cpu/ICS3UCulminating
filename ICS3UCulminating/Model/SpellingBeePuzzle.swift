@@ -19,7 +19,7 @@ struct SpellingBeePuzzle {
     // MARK: - Computed properties
     
     /// A helper property that combines the center letter and outer letters into one list.
-    /// This is useful when we need to check if a word uses ONLY the allowed letters.
+    /// In Spelling Bee, there are always exactly 7 letters (1 center + 6 outer).
     var allLetters: [String] {
         var letters = outerLetters
         letters.append(centerLetter)
@@ -29,33 +29,33 @@ struct SpellingBeePuzzle {
 
 // MARK: - DATA COLLECTION
 // An array containing several different puzzles to keep the game fresh.
-// When the app starts, we can pick one of these at random.
+// Each puzzle below has exactly 1 center letter and 6 outer letters (7 total).
 let allPuzzles = [
     
-    // Puzzle 1: Theme is "Cable/Table"
+    // Puzzle 1: Center 'L', Others 'A, C, E, I, N, T'
     SpellingBeePuzzle(
-        centerLetter: "c",
-        outerLetters: ["a", "b", "e", "l", "n", "t"],
+        centerLetter: "l",
+        outerLetters: ["a", "c", "e", "i", "n", "t"],
         validWords: [
-            "acne", "alec", "ante", "balc", "beak", "beat", "belt", "bent", "beta", "blat", "bleat", "cable", "cane", "cant", "cate", "ceca", "celanet", "cell", "celt", "cent", "clat", "clean", "cleat", "clenvironmental", "enact", "lance", "lace", "lacuna", "latent", "lean", "lent", "table", "tablet", "tacet", "talc"
+            "alec", "alien", "aline", "allele", "anally", "atilt", "canal", "canilla", "cell", "cella", "cellae", "cellar", "clat", "clean", "cleat", "client", "cline", "elate", "elation", "entail", "ileac", "ileal", "ileitides", "inlet", "lace", "lacier", "lacuna", "laic", "lain", "lance", "lancet", "lane", "late", "latent", "latilla", "latin", "lean", "lent", "liana", "lice", "lien", "line", "lineal", "linear", "lint", "lintel", "lite", "nail", "natal", "tala", "talc", "tale", "tall", "tali", "teal", "tela", "tell", "tile", "till"
         ]
     ),
     
-    // Puzzle 2: Theme is "Reading" (Pangram)
+    // Puzzle 2: Center 'R', Others 'A, D, E, I, N, G'
     SpellingBeePuzzle(
         centerLetter: "r",
         outerLetters: ["a", "d", "e", "i", "n", "g"],
         validWords: [
-            "area", "arena", "arid", "dare", "dear", "dean", "dearie", "deer", "diner", "dire", "drain", "drang", "dread", "dream", "drear", "earn", "eager", "eared", "grad", "grade", "grain", "grand", "grange", "greed", "green", "grid", "grin", "grind", "irade", "near", "radar", "rage", "raged", "rain", "rained", "rand", "rare", "read", "reading", "rear", "reared", "redan", "reed", "reign", "rein", "reined", "rend", "reredos", "ride", "ring", "ringed"
+            "area", "arena", "arid", "dare", "darer", "darn", "dear", "deaner", "dearie", "deer", "denar", "dinar", "diner", "dire", "drain", "drainer", "drang", "dread", "drear", "earn", "earner", "eager", "eared", "grad", "grade", "grader", "grain", "grained", "grand", "grander", "grange", "greed", "greeder", "green", "greener", "grid", "grin", "grind", "grinder", "irade", "near", "nearer", "radar", "rage", "raged", "rager", "rain", "rained", "rainier", "rand", "rare", "rared", "read", "reader", "reading", "rear", "reared", "redan", "redia", "reed", "reign", "rein", "reined", "rend", "render", "ride", "rider", "ring", "ringed", "ringer"
         ]
     ),
     
-    // Puzzle 3: Theme is "Outing" (Pangram)
+    // Puzzle 3: Center 'N', Others 'A, D, E, I, G, R'
     SpellingBeePuzzle(
-        centerLetter: "o",
-        outerLetters: ["u", "t", "i", "n", "g", "s"],
+        centerLetter: "n",
+        outerLetters: ["a", "d", "e", "i", "g", "r"],
         validWords: [
-            "onto", "outgo", "outing", "outings", "oust", "ousting", "snout", "song", "stong", "tong", "tongs"
+            "again", "aged", "agent", "aider", "airing", "andante", "anear", "anger", "angered", "angina", "anigh", "aria", "arid", "daen", "dang", "danger", "dare", "daring", "darn", "dean", "deanery", "dear", "dearie", "denar", "denari", "denier", "dine", "diner", "ding", "dinger", "dire", "drain", "drainer", "drang", "earn", "earner", "earing", "eider", "ending", "enrage", "enraged", "gadroon", "gain", "gainer", "garden", "gardener", "gnar", "gnat", "grade", "grader", "gradin", "grain", "grained", "grand", "grander", "grange", "grin", "grind", "grinder", "inane", "ingrain", "ingrained", "inion", "inner", "irade", "near", "nearer", "nearing", "nigher", "niner", "rain", "rained", "rainier", "rand", "ranid", "reading", "redan", "reign", "rein", "reined", "rend", "render"
         ]
     )
 ]

@@ -83,51 +83,41 @@ struct SpellingBeeView: View {
                 
                 Spacer()
                 
-                // SECTION: Letter Grid
-                // This grid creates buttons for all 7 letters in the puzzle.
-                let letters = viewModel.puzzle.allLetters
-                LazyVGrid(columns: [GridItem(.fixed(60)), GridItem(.fixed(60)), GridItem(.fixed(60))], spacing: 15) {
-                    ForEach(letters, id: \.self) { letter in
-                        Button(action: {
-                            viewModel.addLetter(letter)
-                        }) {
-                            Text(letter.uppercased())
-                                .font(.system(size: 24, weight: .bold, design: .rounded))
-                                .frame(width: 60, height: 60)
-                                // The center letter gets a Yellow background, others are White.
-                                .background(letter == viewModel.puzzle.centerLetter ? Color.yellow : Color.white)
-                                .foregroundStyle(.black)
-                                .clipShape(Circle())
-                                .shadow(color: .gray.opacity(0.3), radius: 3, x: 0, y: 2)
-                        }
-                    }
-                }
+                // SECTION: Letter Grid (Honeycomb)
+                // We now use our custom HoneycombView instead of a simple grid.
+                HoneycombView(viewModel: viewModel)
                 
                 Spacer()
                 
                 // SECTION: Controls (Delete and Enter)
                 HStack(spacing: 20) {
                     // Button to backspace/delete the last letter
-                    Button("Delete") {
+                    Button {
                         viewModel.deleteLetter()
+                    } label: {
+                        Text("Delete")
+                            .font(.headline)
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 30)
+                            .padding(.vertical, 15)
+                            .background(Capsule().stroke(Color.black, lineWidth: 1))
                     }
-                    .font(.headline)
-                    .foregroundStyle(.black)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 15)
-                    .background(Capsule().stroke(Color.black, lineWidth: 1))
+                    .buttonStyle(.plain) // Remove system background
                     
                     // Button to submit the word for scoring
-                    Button("Enter") {
+                    Button {
                         viewModel.submitWord()
+                    } label: {
+                        Text("Enter")
+                            .font(.headline)
+                            .foregroundStyle(.black)
+                            .padding(.horizontal, 40)
+                            .padding(.vertical, 15)
+                            .background(Color.yellow)
+                            .clipShape(Capsule())
+                            .shadow(color: .gray.opacity(0.4), radius: 4, x: 0, y: 2)
                     }
-                    .font(.headline)
-                    .foregroundStyle(.black)
-                    .padding(.horizontal, 40)
-                    .padding(.vertical, 15)
-                    .background(Color.yellow)
-                    .clipShape(Capsule())
-                    .shadow(color: .gray.opacity(0.4), radius: 4, x: 0, y: 2)
+                    .buttonStyle(.plain) // Remove system background
                 }
                 .padding(.bottom, 30)
             }
