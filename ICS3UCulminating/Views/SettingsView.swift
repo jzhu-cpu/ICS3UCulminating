@@ -278,6 +278,13 @@ struct RulesDetailView: View {
                             description: "A word that uses all 7 letters is a 'Pangram' and gives you a 7-point bonus!",
                             color: .purple
                         )
+                        
+                        RuleCard(
+                            icon: "person.badge.plus",
+                            title: "Junior Mode",
+                            description: "Switch this on in Settings to allow 3-letter words and use a simpler word list!",
+                            color: .orange
+                        )
                     }
                     .padding(.horizontal, 20)
                     
