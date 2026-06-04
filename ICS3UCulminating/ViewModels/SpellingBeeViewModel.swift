@@ -26,6 +26,9 @@ class SpellingBeeViewModel {
     /// A message to show the user, like "Nice!", "Pangram!", or "Too short".
     var message: String = ""
     
+    /// NEW: Whether Junior Mode is active (allows 3-letter words).
+    var isJuniorMode: Bool = false
+    
     // MARK: - Computed properties
     // These values are calculated "on the fly" whenever they are needed.
     
@@ -113,9 +116,10 @@ class SpellingBeeViewModel {
     }
     
     /// Logic for when the user submits a word.
-    func submitWord() {
+    /// - Parameter juniorMode: Whether or not to apply easier rules.
+    func submitWord(juniorMode: Bool = false) {
         // Step 1: Validate the word rules
-        let result = validate(word: currentWord)
+        let result = validate(word: currentWord, juniorMode: juniorMode)
         
         // Step 2: If valid, update state
         if result == "Success" {
@@ -144,7 +148,7 @@ class SpellingBeeViewModel {
     // These functions handle the "rules" of the game logic.
     
     /// Checks a word against all Spelling Bee rules.
-    func validate(word: String) -> String {
+    func validate(word: String, juniorMode: Bool) -> String {
         let normalizedWord = word.lowercased()
         
         // Rule: Can't submit the same word twice
@@ -154,8 +158,9 @@ class SpellingBeeViewModel {
             }
         }
         
-        // Rule: Length check
-        if normalizedWord.count < 4 {
+        // Rule: Length check (Junior mode allows 3 letters, Standard requires 4)
+        let minLength = juniorMode ? 3 : 4
+        if normalizedWord.count < minLength {
             return "Too short"
         }
         
@@ -172,12 +177,24 @@ class SpellingBeeViewModel {
             return "Missing center letter"
         }
         
-        // Rule: Must be a word in our dictionary (validWords list)
+        // Rule: Check if it's in the valid words list
         var isValid = false
+        
+        // Check standard words
         for valid in puzzle.validWords {
             if valid.lowercased() == normalizedWord {
                 isValid = true
                 break
+            }
+        }
+        
+        // If not found yet and in Junior Mode, check the junior words
+        if isValid == false && juniorMode == true {
+            for junior in puzzle.juniorWords {
+                if junior.lowercased() == normalizedWord {
+                    isValid = true
+                    break
+                }
             }
         }
         
@@ -188,10 +205,10 @@ class SpellingBeeViewModel {
         return "Success"
     }
     
-    /// Calculates score: 4 letters = 1pt, 5+ letters = 1pt per letter, Pangram = +7pts.
+    /// Calculates score: 3-4 letters = 1pt, 5+ letters = 1pt per letter, Pangram = +7pts.
     func calculateScore(for word: String) -> Int {
         var points = 0
-        if word.count == 4 {
+        if word.count <= 4 {
             points = 1
         } else if word.count > 4 {
             points = word.count

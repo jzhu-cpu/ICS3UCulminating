@@ -35,13 +35,21 @@ struct SpellingBeeView: View {
                 Spacer()
                 
                 // SUBVIEW: Action Buttons
-                GameControlsView(viewModel: viewModel, isDarkMode: settings.isDarkMode)
+                GameControlsView(viewModel: viewModel, isDarkMode: settings.isDarkMode, juniorMode: settings.juniorMode)
             }
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
         }
         .preferredColorScheme(settings.isDarkMode ? .dark : .light)
+        // Keep the ViewModel in sync with the global junior mode setting
+        .onChange(of: settings.juniorMode) { old, newValue in
+            viewModel.isJuniorMode = newValue
+        }
+        // Ensure it's set correctly on first appearance
+        .onAppear {
+            viewModel.isJuniorMode = settings.juniorMode
+        }
         // POPUP: Found Words Sheet
         .sheet(isPresented: $showingWordList) {
             FoundWordsListView(foundWords: viewModel.foundWords, isShowing: $showingWordList)
@@ -58,10 +66,23 @@ struct GameHeaderView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(viewModel.currentRating.uppercased())
-                    .font(.system(.caption, design: .monospaced))
-                    .fontWeight(.bold)
-                    .foregroundStyle(.secondary)
+                HStack(spacing: 8) {
+                    Text(viewModel.currentRating.uppercased())
+                        .font(.system(.caption, design: .monospaced))
+                        .fontWeight(.bold)
+                        .foregroundStyle(.secondary)
+                    
+                    // NEW: Show a Junior Mode badge if it's active
+                    if viewModel.isJuniorMode {
+                        Text("JUNIOR")
+                            .font(.system(size: 10, weight: .black))
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color.orange)
+                            .clipShape(Capsule())
+                    }
+                }
                 
                 Text("\(viewModel.score)")
                     .font(.system(size: 34, weight: .black, design: .rounded))
@@ -118,6 +139,7 @@ struct WordDisplayView: View {
 struct GameControlsView: View {
     var viewModel: SpellingBeeViewModel
     let isDarkMode: Bool
+    let juniorMode: Bool
     
     var body: some View {
         HStack(spacing: 20) {
@@ -134,7 +156,7 @@ struct GameControlsView: View {
             .buttonStyle(.plain)
             
             Button {
-                viewModel.submitWord()
+                viewModel.submitWord(juniorMode: juniorMode)
             } label: {
                 Text("Enter")
                     .font(.headline)
