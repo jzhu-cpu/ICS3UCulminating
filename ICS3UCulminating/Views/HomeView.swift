@@ -26,9 +26,8 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background
-                Color(red: 255/255, green: 252/255, blue: 230/255)
-                    .ignoresSafeArea()
+                // Background (Now using our reusable HiveBackgroundView)
+                HiveBackgroundView()
                 
                 VStack(spacing: 50) {
                     

@@ -16,6 +16,7 @@
 		1AB0456A2FD05D4100B06BB0 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045692FD05D4100B06BB0 /* SettingsView.swift */; };
 		1AB0456C2FD05D9E00B06BB0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */; };
 		1AB0456E2FD0EE8300B06BB0 /* HoneycombView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */; };
+		1AB045702FD1D8C600B06BB0 /* HiveBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		1AB045692FD05D4100B06BB0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoneycombView.swift; sourceTree = "<group>"; };
+		1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveBackgroundView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				1AB045692FD05D4100B06BB0 /* SettingsView.swift */,
 				1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */,
 				1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */,
+				1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			files = (
 				1AB0456A2FD05D4100B06BB0 /* SettingsView.swift in Sources */,
 				1AB045662FCE15B400B06BB0 /* SpellingBeeViewModel.swift in Sources */,
+				1AB045702FD1D8C600B06BB0 /* HiveBackgroundView.swift in Sources */,
 				1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */,
 				1AB0456C2FD05D9E00B06BB0 /* HomeView.swift in Sources */,
 				1AB0456E2FD0EE8300B06BB0 /* HoneycombView.swift in Sources */,
