@@ -11,6 +11,9 @@ struct SpellingBeeView: View {
     @State var viewModel = SpellingBeeViewModel()
     @State private var showingWordList = false
     
+    /// NEW: A focus state that allows the View to "listen" for physical keyboard typing.
+    @FocusState private var isFocused: Bool
+    
     // MARK: - Computed properties
     var body: some View {
         ZStack {
@@ -42,6 +45,47 @@ struct SpellingBeeView: View {
             #endif
         }
         .preferredColorScheme(settings.isDarkMode ? .dark : .light)
+        
+        // --- NEW KEYBOARD LOGIC ---
+        // 1. Make the view "focusable" so it can receive key events.
+        .focusable()
+        .focused($isFocused)
+        
+        // 2. Automatically request focus when the view appears.
+        .onAppear {
+            isFocused = true
+        }
+        
+        // 3. Listen for specific key presses.
+        .onKeyPress { keyPress in
+            // Handle 'Enter' key to submit
+            if keyPress.key == .return {
+                viewModel.submitWord(juniorMode: settings.juniorMode)
+                return .handled
+            }
+            
+            // Handle 'Backspace' to delete
+            if keyPress.key == .delete {
+                viewModel.deleteLetter()
+                return .handled
+            }
+            
+            // Handle character typing
+            let typedChar = keyPress.characters.lowercased()
+            
+            // We only process single-character letters
+            if typedChar.count == 1 {
+                // RULE: Only allow letters that appear in the current hive
+                if viewModel.isLetterInHive(typedChar) {
+                    viewModel.addLetter(typedChar)
+                    return .handled
+                }
+            }
+            
+            // Ignore any other keys (like numbers or symbols)
+            return .ignored
+        }
+        
         // Keep the ViewModel in sync with the global junior mode setting
         .onChange(of: settings.juniorMode) { old, newValue in
             viewModel.isJuniorMode = newValue
@@ -154,6 +198,8 @@ struct GameControlsView: View {
                     .background(Capsule().stroke(isDarkMode ? Color.white : Color.black, lineWidth: 1))
             }
             .buttonStyle(.plain)
+            // NEW: Added a keyboard shortcut for the Backspace key
+            .keyboardShortcut(.delete, modifiers: [])
             
             Button {
                 viewModel.submitWord(juniorMode: juniorMode)
@@ -168,6 +214,8 @@ struct GameControlsView: View {
                     .shadow(color: .gray.opacity(0.4), radius: 4, x: 0, y: 2)
             }
             .buttonStyle(.plain)
+            // NEW: Added a keyboard shortcut for the Enter/Return key
+            .keyboardShortcut(.defaultAction)
         }
         .padding(.bottom, 30)
     }

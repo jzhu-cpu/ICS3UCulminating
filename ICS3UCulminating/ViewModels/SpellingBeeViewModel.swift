@@ -89,6 +89,18 @@ class SpellingBeeViewModel {
     // MARK: - Functions (User Intent)
     // These functions are called by the View when the user interacts with the UI.
     
+    /// Checks if a specific letter is allowed in the current puzzle.
+    /// This is used for keyboard validation.
+    func isLetterInHive(_ letter: String) -> Bool {
+        let normalized = letter.lowercased()
+        for allowed in puzzle.allLetters {
+            if allowed.lowercased() == normalized {
+                return true
+            }
+        }
+        return false
+    }
+    
     /// Resets the game state and picks a new random puzzle from the list.
     func startNewGame() {
         // 1. Pick a new random puzzle
