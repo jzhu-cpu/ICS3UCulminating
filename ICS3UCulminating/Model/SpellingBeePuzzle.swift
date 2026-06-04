@@ -33,15 +33,17 @@ struct SpellingBeePuzzle {
 let allPuzzles = [
     
     // Puzzle 1: Center 'L', Others 'A, C, E, I, N, T'
+    // Pangram example: CLIENTELE, ELATINE
     SpellingBeePuzzle(
         centerLetter: "l",
         outerLetters: ["a", "c", "e", "i", "n", "t"],
         validWords: [
-            "alec", "alien", "aline", "allele", "anally", "atilt", "canal", "canilla", "cell", "cella", "cellae", "cellar", "clat", "clean", "cleat", "client", "cline", "elate", "elation", "entail", "ileac", "ileal", "ileitides", "inlet", "lace", "lacier", "lacuna", "laic", "lain", "lance", "lancet", "lane", "late", "latent", "latilla", "latin", "lean", "lent", "liana", "lice", "lien", "line", "lineal", "linear", "lint", "lintel", "lite", "nail", "natal", "tala", "talc", "tale", "tall", "tali", "teal", "tela", "tell", "tile", "till"
+            "alec", "alien", "aline", "allele", "anally", "atilt", "canal", "canilla", "cell", "cella", "cellae", "cellar", "clat", "clean", "cleat", "client", "cline", "elate", "elation", "entail", "ileac", "ileal", "inlet", "lace", "lacier", "lacuna", "laic", "lain", "lance", "lancet", "lane", "late", "latent", "latilla", "latin", "lean", "lent", "liana", "lice", "lien", "line", "lineal", "linear", "lint", "lintel", "lite", "nail", "natal", "tala", "talc", "tale", "tall", "tali", "teal", "tela", "tell", "tile", "till"
         ]
     ),
     
     // Puzzle 2: Center 'R', Others 'A, D, E, I, N, G'
+    // Pangram example: DRAINAGE, READING
     SpellingBeePuzzle(
         centerLetter: "r",
         outerLetters: ["a", "d", "e", "i", "n", "g"],
@@ -50,13 +52,30 @@ let allPuzzles = [
         ]
     ),
     
-    // Puzzle 3: Center 'N', Others 'A, D, E, I, G, R'
+    // Puzzle 3: Center 'H', Others 'A, L, P, Y, I, L' -> 'A, L, P, Y, I, G' (Fixing for 7 unique)
+    // Pangram: HAPPILY
     SpellingBeePuzzle(
-        centerLetter: "n",
-        outerLetters: ["a", "d", "e", "i", "g", "r"],
-        validWords: [
-            "again", "aged", "agent", "aider", "airing", "andante", "anear", "anger", "angered", "angina", "anigh", "aria", "arid", "daen", "dang", "danger", "dare", "daring", "darn", "dean", "deanery", "dear", "dearie", "denar", "denari", "denier", "dine", "diner", "ding", "dinger", "dire", "drain", "drainer", "drang", "earn", "earner", "earing", "eider", "ending", "enrage", "enraged", "gadroon", "gain", "gainer", "garden", "gardener", "gnar", "gnat", "grade", "grader", "gradin", "grain", "grained", "grand", "grander", "grange", "grin", "grind", "grinder", "inane", "ingrain", "ingrained", "inion", "inner", "irade", "near", "nearer", "nearing", "nigher", "niner", "rain", "rained", "rainier", "rand", "ranid", "reading", "redan", "reign", "rein", "reined", "rend", "render"
-        ]
+        centerLetter: "h",
+        outerLetters: ["a", "l", "p", "y", "i", "g"],
+        validWords: ["alpha", "halal", "hall", "hally", "happily", "happy", "high", "highly", "hila", "hill", "hilly", "hiply", "hiya", "hula", "hypha", "hyphal", "phil", "phyla"]
+    ),
+    
+    // Puzzle 4: Center 'M', Others 'A, N, O, R, G, I'
+    // Pangram: MARJORAM (Needs J), let's try Center 'M', Others 'A, N, G, R, O, I'
+    // Pangram: AMORINI (Needs more), let's try Center 'M', Others 'A, N, G, R, O, I'
+    // Pangram: ORGANIGRAM
+    SpellingBeePuzzle(
+        centerLetter: "m",
+        outerLetters: ["a", "n", "g", "r", "o", "i"],
+        validWords: ["agma", "amigo", "amin", "amir", "amman", "ammo", "ammoniac", "amnia", "amnio", "amniogram", "among", "anima", "gram", "grim", "main", "mama", "mamma", "mammogram", "mana", "manga", "mango", "mania", "manioc", "manna", "mano", "manor", "mara", "marg", "margin", "marmon", "maroon", "mina", "minar", "ming", "minor", "moan", "moira", "moma", "monad", "mong", "monocara", "mono", "mooning", "moony", "mora", "morn", "mornin", "morning", "moro", "morn", "norm", "organigram", "roam", "roaming"]
+    ),
+    
+    // Puzzle 5: Center 'U', Others 'B, L, I, O, T, S'
+    // Pangram: SOLUBILITY
+    SpellingBeePuzzle(
+        centerLetter: "u",
+        outerLetters: ["b", "l", "i", "o", "t", "s"],
+        validWords: ["blub", "blue", "built", "bull", "bullion", "bullit", "busboy", "bust", "lulu", "lust", "outsit", "slub", "slur", "slut", "solubility", "soul", "subsoil", "substility", "suit", "utilitios"]
     )
 ]
 

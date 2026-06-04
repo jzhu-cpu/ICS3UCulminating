@@ -1,87 +1,63 @@
 import SwiftUI
 
+// MARK: - MENU ITEM MODEL
+// A simple struct to hold the data for our home screen buttons.
+// This allows us to organize our buttons in an array.
+struct HomeMenuItem {
+    let title: String
+    let icon: String
+    let backgroundColor: Color
+    let textColor: Color
+}
+
 // MARK: - HOME VIEW
-// This is the first screen the user sees when they launch the app.
-// It provides a "hub" for navigating to the game or settings.
 struct HomeView: View {
+    
+    // MARK: - Stored properties
+    
+    /// An array of menu items. This "organizes the code" by separating the data from the layout.
+    let menuItems = [
+        HomeMenuItem(title: "Play Game", icon: "play.fill", backgroundColor: .yellow, textColor: .black),
+        HomeMenuItem(title: "Settings", icon: "gearshape.fill", backgroundColor: .black, textColor: .white)
+    ]
     
     // MARK: - Computed properties
     
     var body: some View {
         NavigationStack {
             ZStack {
-                // Background color theme (light yellow/cream)
+                // Background
                 Color(red: 255/255, green: 252/255, blue: 230/255)
                     .ignoresSafeArea()
                 
                 VStack(spacing: 50) {
                     
-                    // SECTION: Header/Logo
-                    VStack(spacing: 10) {
-                        // A simple "bee" icon or circle to represent the game
-                        Image(systemName: "hexagon.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 80, height: 80)
-                            .foregroundStyle(.yellow)
-                            .overlay {
-                                Image(systemName: "ant.fill") // Using an insect icon as a "bee"
-                                    .font(.title)
-                                    .foregroundStyle(.black)
-                            }
-                            .shadow(radius: 5)
-                        
-                        Text("Spelling Bee")
-                            .font(.system(size: 48, weight: .black, design: .serif))
-                            .foregroundStyle(.black)
-                        
-                        Text("Build words, earn points.")
-                            .font(.subheadline)
-                            .italic()
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.top, 40)
+                    // SECTION: Header
+                    HeaderView()
                     
                     Spacer()
                     
-                    // SECTION: Navigation Buttons
+                    // SECTION: Navigation Buttons (Organized using an array)
                     VStack(spacing: 20) {
-                        
-                        // Navigate to the main game
-                        NavigationLink(destination: SpellingBeeView()) {
-                            HStack {
-                                Image(systemName: "play.fill")
-                                Text("Play Game")
+                        // We loop through our array of data to create the buttons
+                        ForEach(menuItems, id: \.title) { item in
+                            if item.title == "Play Game" {
+                                NavigationLink(destination: SpellingBeeView()) {
+                                    MenuButtonView(item: item)
+                                }
+                                .buttonStyle(.plain)
+                            } else {
+                                NavigationLink(destination: SettingsView()) {
+                                    MenuButtonView(item: item)
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .font(.headline)
-                            .foregroundStyle(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.yellow)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .shadow(color: .gray.opacity(0.4), radius: 5, x: 0, y: 5)
-                        }
-                        
-                        // Navigate to settings
-                        NavigationLink(destination: SettingsView()) {
-                            HStack {
-                                Image(systemName: "gearshape.fill")
-                                Text("Settings")
-                            }
-                            .font(.headline)
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                            .shadow(color: .gray.opacity(0.4), radius: 5, x: 0, y: 5)
                         }
                     }
                     .padding(.horizontal, 40)
                     
                     Spacer()
                     
-                    // Footer
                     Text("© 2026 Judy's Coding Lab")
                         .font(.caption2)
                         .foregroundStyle(.secondary)
@@ -89,6 +65,56 @@ struct HomeView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - SUBVIEW: HEADER
+// A custom subview for the top part of the home screen.
+struct HeaderView: View {
+    var body: some View {
+        VStack(spacing: 10) {
+            Image(systemName: "hexagon.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundStyle(.yellow)
+                .overlay {
+                    Image(systemName: "ant.fill")
+                        .font(.title)
+                        .foregroundStyle(.black)
+                }
+                .shadow(radius: 5)
+            
+            Text("Spelling Bee")
+                .font(.system(size: 48, weight: .black, design: .serif))
+                .foregroundStyle(.black)
+            
+            Text("Build words, earn points.")
+                .font(.subheadline)
+                .italic()
+                .foregroundStyle(.secondary)
+        }
+        .padding(.top, 40)
+    }
+}
+
+// MARK: - SUBVIEW: MENU BUTTON
+// A custom subview that defines how each button in our menu should look.
+struct MenuButtonView: View {
+    let item: HomeMenuItem
+    
+    var body: some View {
+        HStack {
+            Image(systemName: item.icon)
+            Text(item.title)
+        }
+        .font(.headline)
+        .foregroundStyle(item.textColor)
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(item.backgroundColor)
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .shadow(color: .gray.opacity(0.4), radius: 5, x: 0, y: 5)
     }
 }
 
