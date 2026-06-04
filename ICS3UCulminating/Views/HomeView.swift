@@ -15,6 +15,9 @@ struct HomeView: View {
     
     // MARK: - Stored properties
     
+    // Access the global settings from the environment
+    @Environment(AppSettings.self) private var settings
+    
     /// An array of menu items. This "organizes the code" by separating the data from the layout.
     let menuItems = [
         HomeMenuItem(title: "Play Game", icon: "play.fill", backgroundColor: .yellow, textColor: .black),
@@ -27,12 +30,12 @@ struct HomeView: View {
         NavigationStack {
             ZStack {
                 // Background (Now using our reusable HiveBackgroundView)
-                HiveBackgroundView()
+                HiveBackgroundView(isDarkMode: settings.isDarkMode)
                 
                 VStack(spacing: 50) {
                     
                     // SECTION: Header
-                    HeaderView()
+                    HeaderView(isDarkMode: settings.isDarkMode)
                     
                     Spacer()
                     
@@ -64,12 +67,15 @@ struct HomeView: View {
                 }
             }
         }
+        .preferredColorScheme(settings.isDarkMode ? .dark : .light)
     }
 }
 
 // MARK: - SUBVIEW: HEADER
 // A custom subview for the top part of the home screen.
 struct HeaderView: View {
+    let isDarkMode: Bool
+    
     var body: some View {
         VStack(spacing: 10) {
             Image(systemName: "hexagon.fill")
@@ -86,7 +92,7 @@ struct HeaderView: View {
             
             Text("Spelling Bee")
                 .font(.system(size: 48, weight: .black, design: .serif))
-                .foregroundStyle(.black)
+                .foregroundStyle(isDarkMode ? .white : .black)
             
             Text("Build words, earn points.")
                 .font(.subheadline)

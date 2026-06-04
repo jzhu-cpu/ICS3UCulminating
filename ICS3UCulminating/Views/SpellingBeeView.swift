@@ -4,6 +4,10 @@ import SwiftUI
 struct SpellingBeeView: View {
     
     // MARK: - Stored properties
+    
+    // Access the global settings from the environment
+    @Environment(AppSettings.self) private var settings
+    
     @State var viewModel = SpellingBeeViewModel()
     @State private var showingWordList = false
     
@@ -11,17 +15,17 @@ struct SpellingBeeView: View {
     var body: some View {
         ZStack {
             // Background (Now using our reusable HiveBackgroundView)
-            HiveBackgroundView()
+            HiveBackgroundView(isDarkMode: settings.isDarkMode)
             
             VStack(spacing: 20) {
                 
                 // SUBVIEW: Top Bar (Organized into its own section below)
-                GameHeaderView(viewModel: viewModel, showingWordList: $showingWordList)
+                GameHeaderView(viewModel: viewModel, showingWordList: $showingWordList, isDarkMode: settings.isDarkMode)
                 
                 Spacer()
                 
                 // SUBVIEW: Word Display
-                WordDisplayView(currentWord: viewModel.currentWord, message: viewModel.message)
+                WordDisplayView(currentWord: viewModel.currentWord, message: viewModel.message, isDarkMode: settings.isDarkMode)
                 
                 Spacer()
                 
@@ -31,12 +35,13 @@ struct SpellingBeeView: View {
                 Spacer()
                 
                 // SUBVIEW: Action Buttons
-                GameControlsView(viewModel: viewModel)
+                GameControlsView(viewModel: viewModel, isDarkMode: settings.isDarkMode)
             }
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
         }
+        .preferredColorScheme(settings.isDarkMode ? .dark : .light)
         // POPUP: Found Words Sheet
         .sheet(isPresented: $showingWordList) {
             FoundWordsListView(foundWords: viewModel.foundWords, isShowing: $showingWordList)
@@ -48,6 +53,7 @@ struct SpellingBeeView: View {
 struct GameHeaderView: View {
     var viewModel: SpellingBeeViewModel
     @Binding var showingWordList: Bool
+    let isDarkMode: Bool
     
     var body: some View {
         HStack {
@@ -59,6 +65,7 @@ struct GameHeaderView: View {
                 
                 Text("\(viewModel.score)")
                     .font(.system(size: 34, weight: .black, design: .rounded))
+                    .foregroundStyle(isDarkMode ? .white : .black)
             }
             
             Spacer()
@@ -68,7 +75,7 @@ struct GameHeaderView: View {
             } label: {
                 Image(systemName: "arrow.clockwise.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
                     .padding(.trailing, 10)
             }
             .buttonStyle(.plain)
@@ -78,7 +85,7 @@ struct GameHeaderView: View {
             } label: {
                 Image(systemName: "list.bullet.circle.fill")
                     .font(.system(size: 30))
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
             }
             .buttonStyle(.plain)
         }
@@ -90,13 +97,14 @@ struct GameHeaderView: View {
 struct WordDisplayView: View {
     let currentWord: String
     let message: String
+    let isDarkMode: Bool
     
     var body: some View {
         VStack {
             Text(currentWord.isEmpty ? " " : currentWord.uppercased())
                 .font(.system(size: 44, weight: .black, design: .rounded))
                 .tracking(4)
-                .foregroundStyle(.black)
+                .foregroundStyle(isDarkMode ? .white : .black)
             
             Text(message)
                 .font(.headline)
@@ -109,6 +117,7 @@ struct WordDisplayView: View {
 // MARK: - SUBVIEW: GAME CONTROLS
 struct GameControlsView: View {
     var viewModel: SpellingBeeViewModel
+    let isDarkMode: Bool
     
     var body: some View {
         HStack(spacing: 20) {
@@ -117,10 +126,10 @@ struct GameControlsView: View {
             } label: {
                 Text("Delete")
                     .font(.headline)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(isDarkMode ? .white : .black)
                     .padding(.horizontal, 30)
                     .padding(.vertical, 15)
-                    .background(Capsule().stroke(Color.black, lineWidth: 1))
+                    .background(Capsule().stroke(isDarkMode ? Color.white : Color.black, lineWidth: 1))
             }
             .buttonStyle(.plain)
             
