@@ -18,6 +18,7 @@
 		1AB0456E2FD0EE8300B06BB0 /* HoneycombView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */; };
 		1AB045702FD1D8C600B06BB0 /* HiveBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */; };
 		1AB045722FD1DB2600B06BB0 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045712FD1DB2600B06BB0 /* AppSettings.swift */; };
+		1AB045742FD74CA300B06BB0 /* RuleCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB045732FD74CA300B06BB0 /* RuleCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoneycombView.swift; sourceTree = "<group>"; };
 		1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiveBackgroundView.swift; sourceTree = "<group>"; };
 		1AB045712FD1DB2600B06BB0 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		1AB045732FD74CA300B06BB0 /* RuleCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				1AB045672FD0567B00B06BB0 /* SpellingBeeView.swift */,
 				1AB045692FD05D4100B06BB0 /* SettingsView.swift */,
+				1AB045732FD74CA300B06BB0 /* RuleCard.swift */,
 				1AB0456B2FD05D9E00B06BB0 /* HomeView.swift */,
 				1AB0456D2FD0EE8300B06BB0 /* HoneycombView.swift */,
 				1AB0456F2FD1D8C600B06BB0 /* HiveBackgroundView.swift */,
@@ -182,6 +185,7 @@
 				1AB045702FD1D8C600B06BB0 /* HiveBackgroundView.swift in Sources */,
 				1AB045682FD0567B00B06BB0 /* SpellingBeeView.swift in Sources */,
 				1AB0456C2FD05D9E00B06BB0 /* HomeView.swift in Sources */,
+				1AB045742FD74CA300B06BB0 /* RuleCard.swift in Sources */,
 				1AB045722FD1DB2600B06BB0 /* AppSettings.swift in Sources */,
 				1AB0456E2FD0EE8300B06BB0 /* HoneycombView.swift in Sources */,
 				1AB0454E2FCE05AF00B06BB0 /* ICS3UCulminatingApp.swift in Sources */,

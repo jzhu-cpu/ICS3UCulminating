@@ -1,3 +1,11 @@
+//
+//  RuleCard.swift
+//  ICS3UCulminating
+//
+//  Created by Judy Z on 2026/6/8.
+//
+
+
 import SwiftUI
 
 struct RuleCard: View {
